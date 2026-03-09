@@ -6,9 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { WA_ORDER_URL, IG_URL } from "@/lib/constants";
 gsap.registerPlugin(ScrollTrigger);
 
-const NODE_SIZE = 10;
-const ABOVE_H = 180;
-
 const steps = [
   {
     num: "01",
@@ -31,6 +28,9 @@ const steps = [
     desc: "Your handcrafted artwork is completed and delivered. You can request progress updates anytime.",
   },
 ];
+
+const NODE_SIZE = 10;
+const ABOVE_H = 180;
 
 function StepContent({ step }: { step: typeof steps[0] }) {
   return (
@@ -79,59 +79,154 @@ function StepContent({ step }: { step: typeof steps[0] }) {
   );
 }
 
-function TimelineStep({ step, i }: { step: typeof steps[0]; i: number }) {
-  const isAbove = i % 2 === 0;
+/* Desktop: horizontal zigzag timeline */
+function DesktopTimeline() {
+  const lineRef = useRef<HTMLDivElement>(null);
+  const lineTop = ABOVE_H + NODE_SIZE / 2;
+
+  useEffect(() => {
+    gsap.fromTo(
+      lineRef.current,
+      { scaleX: 0 },
+      {
+        scaleX: 1, duration: 1.2, ease: "power2.out",
+        scrollTrigger: { trigger: lineRef.current, start: "top 85%" },
+      }
+    );
+  }, []);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7, delay: i * 0.14, ease: [0.16, 1, 0.3, 1] }}
-      style={{
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "0 12px",
-      }}
-    >
+    <div className="hidden md:block" style={{ position: "relative" }}>
       <div
+        ref={lineRef}
         style={{
-          height: ABOVE_H,
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          paddingBottom: 24,
+          position: "absolute",
+          top: lineTop,
+          left: 0,
+          right: 0,
+          height: 1,
+          background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.25) 20%, rgba(201,168,76,0.25) 80%, transparent)",
+          transformOrigin: "left center",
         }}
-      >
-        {isAbove && <StepContent step={step} />}
+      />
+      <div style={{ display: "flex", position: "relative", zIndex: 1 }}>
+        {steps.map((s, i) => {
+          const isAbove = i % 2 === 0;
+          return (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: i * 0.14, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "0 12px",
+              }}
+            >
+              <div
+                style={{
+                  height: ABOVE_H,
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-end",
+                  paddingBottom: 24,
+                }}
+              >
+                {isAbove && <StepContent step={s} />}
+              </div>
+              <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div
+                  style={{
+                    width: NODE_SIZE,
+                    height: NODE_SIZE,
+                    borderRadius: "50%",
+                    background: "var(--gold, #c9a84c)",
+                    boxShadow: "0 0 0 3px rgba(201,168,76,0.15), 0 0 12px rgba(201,168,76,0.2)",
+                    flexShrink: 0,
+                    zIndex: 2,
+                  }}
+                />
+              </div>
+              <div style={{ height: ABOVE_H, width: "100%", paddingTop: 24 }}>
+                {!isAbove && <StepContent step={s} />}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
+    </div>
+  );
+}
 
-      <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div
+/* Mobile: vertical timeline */
+function MobileTimeline() {
+  const lineRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    gsap.fromTo(
+      lineRef.current,
+      { scaleY: 0 },
+      {
+        scaleY: 1, duration: 1.2, ease: "power2.out",
+        scrollTrigger: { trigger: lineRef.current, start: "top 85%" },
+      }
+    );
+  }, []);
+
+  return (
+    <div className="md:hidden" style={{ position: "relative", paddingLeft: 32 }}>
+      <div
+        ref={lineRef}
+        style={{
+          position: "absolute",
+          top: 0,
+          bottom: 0,
+          left: 11,
+          width: 1,
+          background: "linear-gradient(180deg, transparent, rgba(201,168,76,0.25) 10%, rgba(201,168,76,0.25) 90%, transparent)",
+          transformOrigin: "top center",
+        }}
+      />
+      {steps.map((s, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, x: -16 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            width: NODE_SIZE,
-            height: NODE_SIZE,
-            borderRadius: "50%",
-            background: "var(--gold, #c9a84c)",
-            boxShadow: "0 0 0 3px rgba(201,168,76,0.15), 0 0 12px rgba(201,168,76,0.2)",
-            flexShrink: 0,
-            zIndex: 2,
+            position: "relative",
+            paddingBottom: i < steps.length - 1 ? 40 : 0,
           }}
-        />
-      </div>
-
-      <div style={{ height: ABOVE_H, width: "100%", paddingTop: 24 }}>
-        {!isAbove && <StepContent step={step} />}
-      </div>
-    </motion.div>
+        >
+          {/* Node dot */}
+          <div
+            style={{
+              position: "absolute",
+              left: -32 + 11 - NODE_SIZE / 2,
+              top: 2,
+              width: NODE_SIZE,
+              height: NODE_SIZE,
+              borderRadius: "50%",
+              background: "var(--gold, #c9a84c)",
+              boxShadow: "0 0 0 3px rgba(201,168,76,0.15), 0 0 12px rgba(201,168,76,0.2)",
+              zIndex: 2,
+            }}
+          />
+          <StepContent step={s} />
+        </motion.div>
+      ))}
+    </div>
   );
 }
 
 export default function Process() {
   const titleRef = useRef<HTMLDivElement>(null);
-  const lineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     gsap.fromTo(
@@ -150,17 +245,7 @@ export default function Process() {
         scrollTrigger: { trigger: titleRef.current, start: "top 85%" },
       }
     );
-    gsap.fromTo(
-      lineRef.current,
-      { scaleX: 0 },
-      {
-        scaleX: 1, duration: 1.2, ease: "power2.out",
-        scrollTrigger: { trigger: lineRef.current, start: "top 85%" },
-      }
-    );
   }, []);
-
-  const lineTop = ABOVE_H + NODE_SIZE / 2;
 
   return (
     <section
@@ -205,25 +290,8 @@ export default function Process() {
           </h2>
         </div>
 
-        <div style={{ position: "relative" }}>
-          <div
-            ref={lineRef}
-            style={{
-              position: "absolute",
-              top: lineTop,
-              left: 0,
-              right: 0,
-              height: 1,
-              background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.25) 20%, rgba(201,168,76,0.25) 80%, transparent)",
-              transformOrigin: "left center",
-            }}
-          />
-          <div style={{ display: "flex", position: "relative", zIndex: 1 }}>
-            {steps.map((s, i) => (
-              <TimelineStep key={i} step={s} i={i} />
-            ))}
-          </div>
-        </div>
+        <DesktopTimeline />
+        <MobileTimeline />
 
         <div
           style={{

@@ -24,8 +24,8 @@ export default function Navbar() {
     }, 200);
   };
 
-  const bg = passedHero ? "rgba(255,255,255,0.97)" : "transparent";
-  const color = passedHero ? "#1a1a1a" : "#ffffff";
+  const bg = open ? "rgba(255,255,255,0.97)" : passedHero ? "rgba(255,255,255,0.97)" : "transparent";
+  const color = open ? "#1a1a1a" : passedHero ? "#1a1a1a" : "#ffffff";
 
   return (
     <>
