@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cinzel, Cormorant_Garamond, Inter } from "next/font/google";
+import { SITE_URL, GALLERY_ITEMS } from "@/lib/constants";
 import "./globals.css";
 
 const cinzel = Cinzel({
@@ -25,7 +26,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://agasthyakala.in"),
+  metadataBase: new URL(SITE_URL),
   title: "Custom Paintings & Portrait Artist Kerala | AgasthyaKala",
   description:
     "Commission custom paintings, portraits from photo, mythological art & pencil drawings from AgasthyaKala, Payyannur Kerala. Hand-painted artwork delivered across India. WhatsApp: +91 99477 10054",
@@ -64,11 +65,11 @@ export const metadata: Metadata = {
       "Commission handcrafted portraits from photo, mythological paintings & personalized artworks. Hand-painted and delivered across India.",
     type: "website",
     locale: "en_IN",
-    url: "https://agasthyakala.in",
+    url: "/",
     siteName: "AgasthyaKala",
     images: [
       {
-        url: "https://agasthyakala.in/artworks/radha-krishna-mythological-painting-commission.jpg",
+        url: "/artworks/radha-krishna-mythological-painting-commission.jpg",
         width: 1200,
         height: 630,
         alt: "AgasthyaKala — Custom Paintings & Portrait Art Studio in Payyannur, Kerala",
@@ -80,10 +81,10 @@ export const metadata: Metadata = {
     title: "Custom Paintings & Portraits from Photo | AgasthyaKala Kerala",
     description:
       "Commission handcrafted portraits, mythological paintings & personalized art. Hand-painted in Payyannur, Kerala. Delivered all over India.",
-    images: ["https://agasthyakala.in/artworks/radha-krishna-mythological-painting-commission.jpg"],
+    images: ["/artworks/radha-krishna-mythological-painting-commission.jpg"],
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: "https://agasthyakala.in" },
+  alternates: { canonical: "/" },
 };
 
 export default function RootLayout({
@@ -104,12 +105,12 @@ export default function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "LocalBusiness",
-                "@id": "https://agasthyakala.in/#business",
+                "@id": `${SITE_URL}/#business`,
                 name: "AgasthyaKala",
                 description:
                   "Custom painting, portrait from photo and art commission studio in Payyannur, Kerala. Specialising in mythological paintings, pencil portraits, cultural illustrations and personalized handcrafted artworks delivered across India.",
-                url: "https://agasthyakala.in",
-                image: "https://agasthyakala.in/artworks/radha-krishna-mythological-painting-commission.jpg",
+                url: SITE_URL,
+                image: `${SITE_URL}/artworks/radha-krishna-mythological-painting-commission.jpg`,
                 address: {
                   "@type": "PostalAddress",
                   streetAddress: "Edat, Near Malara Oil Mill",
@@ -138,17 +139,17 @@ export default function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "Person",
-                "@id": "https://agasthyakala.in/#artist",
+                "@id": `${SITE_URL}/#artist`,
                 name: "AgasthyaKala",
                 jobTitle: "Portrait Artist & Custom Painter",
-                url: "https://agasthyakala.in",
-                image: "https://agasthyakala.in/artworks/custom-portrait-painting-kerala-agasthyakala.jpg",
+                url: SITE_URL,
+                image: `${SITE_URL}/artworks/custom-portrait-painting-kerala-agasthyakala.jpg`,
                 sameAs: [
                   "https://www.instagram.com/_agasthya_kala_/",
                   "https://www.facebook.com/AgasthyaKala",
                 ],
                 worksFor: {
-                  "@id": "https://agasthyakala.in/#business",
+                  "@id": `${SITE_URL}/#business`,
                 },
                 knowsAbout: [
                   "Custom Paintings",
@@ -164,18 +165,18 @@ export default function RootLayout({
                 name: "Custom Painting Commission",
                 description:
                   "Commission a handcrafted custom painting or portrait from photo. Personalized artwork hand-painted by AgasthyaKala, delivered across India.",
-                image: "https://agasthyakala.in/artworks/radha-krishna-mythological-painting-commission.jpg",
+                image: `${SITE_URL}/artworks/radha-krishna-mythological-painting-commission.jpg`,
                 brand: {
                   "@type": "Brand",
                   name: "AgasthyaKala",
                 },
                 offers: {
                   "@type": "Offer",
-                  url: "https://agasthyakala.in",
+                  url: SITE_URL,
                   priceCurrency: "INR",
                   availability: "https://schema.org/InStock",
                   seller: {
-                    "@id": "https://agasthyakala.in/#business",
+                    "@id": `${SITE_URL}/#business`,
                   },
                 },
                 aggregateRating: {
@@ -191,20 +192,8 @@ export default function RootLayout({
                 name: "AgasthyaKala Art Gallery",
                 description:
                   "Gallery of custom paintings, portraits from photo, mythological art and cultural illustrations by AgasthyaKala, Payyannur Kerala.",
-                url: "https://agasthyakala.in/#gallery",
-                image: [
-                  "https://agasthyakala.in/artworks/custom-portrait-painting-kerala-agasthyakala.jpg",
-                  "https://agasthyakala.in/artworks/radha-krishna-mythological-painting-commission.jpg",
-                  "https://agasthyakala.in/artworks/custom-pencil-portrait-drawing-from-photo.jpg",
-                  "https://agasthyakala.in/artworks/cultural-illustration-commission-payyannur.jpg",
-                  "https://agasthyakala.in/artworks/commissioned-personalized-painting-kerala.jpg",
-                  "https://agasthyakala.in/artworks/custom-portrait-from-photo-kerala.jpg",
-                  "https://agasthyakala.in/artworks/mythological-canvas-painting-india.jpg",
-                  "https://agasthyakala.in/artworks/handcrafted-cultural-art-kerala.jpg",
-                  "https://agasthyakala.in/artworks/pencil-portrait-from-photo-agasthyakala.jpg",
-                  "https://agasthyakala.in/artworks/custom-painting-personalized-art-gift.jpg",
-                  "https://agasthyakala.in/artworks/fine-art-painting-commission-payyannur.jpg",
-                ],
+                url: `${SITE_URL}/#gallery`,
+                image: GALLERY_ITEMS.map((item) => `${SITE_URL}${item.src}`),
               },
             ]),
           }}

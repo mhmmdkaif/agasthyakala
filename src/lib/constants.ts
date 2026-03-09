@@ -1,5 +1,10 @@
 // ── Shared Constants ──
 
+export const SITE_URL =
+  process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000";
+
 export const WA_URL =
   "https://api.whatsapp.com/send/?phone=919947710054&text=Hi+AgasthyaKala!+I+want+to+commission+artwork.&type=phone_number&app_absent=0";
 
