@@ -215,16 +215,3 @@ html.lenis, html.lenis body { height: auto; }
   transform: translateY(-1px);
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  /* Gallery mosaic → 2 columns on mobile */
-  #gallery > div:last-of-type {
-    grid-template-columns: repeat(2, 1fr) !important;
-    grid-template-rows: auto !important;
-  }
-  #gallery > div:last-of-type > div {
-    grid-column: auto !important;
-    grid-row: auto !important;
-    aspect-ratio: 1;
-  }
-}
